@@ -2,6 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import precision_score, accuracy_score, recall_score, f1_score
+from sklearn.model_selection import train_test_split
 
 pd.options.display.max_columns = 7
 
@@ -13,17 +15,27 @@ X = df[['Pclass', 'male', 'Age', 'Siblings/Spouses', 'Parents/Children', 'Fare']
 y = df['Survived'].values
 model = LogisticRegression()
 model.fit(X, y)
-print(model.predict(X))
+y_pred = model.predict(X)
+print((y == y_pred).sum() / y.shape[0])
+print(model.score(X, y))
 
-# plt.scatter(X.min(), y, c=df['Survived'])
+print(precision_score(y, y_pred))
+print(accuracy_score(y, y_pred))
+print(recall_score(y, y_pred))
+print(f1_score(y, y_pred))
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=35)
+
+model_tr = LogisticRegression()
+model_tr.fit(X_train, y_train)
+print(model_tr.score(X_test, y_test))
+
+
+# plt.scatter(df['Fare'], df['Age'], c=df['Survived'])
 # plt.scatter(X, y, c=df['Survived'])
-# plt.plot(model.coef_, model.intercept_)
+# plt.plot()
 # plt.show()
 
-
-
-
-# text = pd.read_csv('https://sololearn.com/uploads/files/titanic.csv')
 # text.to_csv('titanic.csv')
 
 # col = df['Fare']
