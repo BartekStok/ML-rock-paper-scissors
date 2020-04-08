@@ -17,7 +17,7 @@ X = df[feature_names].values
 y = df['Survived'].values
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=22)
-model = DecisionTreeClassifier(criterion='entropy')  # default 'gini'
+model = DecisionTreeClassifier(max_depth=5, min_samples_leaf=5, max_leaf_nodes=15)  # default 'gini'
 model.fit(X_train, y_train)
 y_pred = model.predict(X_test)
 print(model.predict(X[:15]))  # predicts for first 15 datasets
@@ -31,4 +31,4 @@ print('F1 score: ', f1_score(y_test, y_pred))
 
 dot_file = export_graphviz(model, feature_names=feature_names)
 graph = graphviz.Source(dot_file)
-graph.render(filename='tree', format='png', cleanup=True)
+graph.render(filename='tree_pruned', format='png', cleanup=True)
