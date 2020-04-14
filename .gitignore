@@ -207,3 +207,6 @@ fabric.properties
 
 # Custom files
 example_model_graph.py
+paper.pkl
+rock.pkl
+scissors.pkl
