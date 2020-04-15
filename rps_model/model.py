@@ -19,11 +19,11 @@ df2 = pd.DataFrame(data_paper)     # 2
 df3 = pd.DataFrame(data_scissors)  # 3
 df = pd.concat([df1, df2, df3])
 df = df.drop(['size'], axis=1)
-image_nd = df['data'].values
-X = [np.asarray(image_nd[i]) for i in range(len(image_nd))]
-X = np.array(X)
+X = df['data']
 y = df['label'].values
+print(type(X))
 print(X)
+
 
 # Training model
 # X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=35, shuffle=True)

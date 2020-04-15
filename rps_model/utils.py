@@ -2,17 +2,20 @@ import joblib
 import os
 from PIL import Image
 import re
+from matplotlib import image as plt_image
+import numpy as np
 
 
 def image_convert(image_names, path_to_images):
     """
-    Converts images to a dict with apropriate label and size to ndarray
+    Converts images to a dict with appropriate label and size to ndarray
     Then saves it to pickle file
     """
     image_dict = {'label': [], 'data': [], 'size': []}
     label = re.findall(r'(rock|paper|scissors)', path_to_images)
     for image in image_names:
         f = Image.open(os.path.join(path_to_images, image))
+        # f = plt_image.imread(os.path.join(path_to_images, image))
         image_dict['label'].append(label[0])
         image_dict['data'].append(f)
         image_dict['size'].append(f.size)
