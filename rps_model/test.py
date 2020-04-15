@@ -7,6 +7,8 @@ from collections import defaultdict
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+from PIL import Image
+
 
 # load data from files
 data_rock = joblib.load('data/rock.pkl')
@@ -19,20 +21,16 @@ df2 = pd.DataFrame(data_paper)     # 2
 df3 = pd.DataFrame(data_scissors)  # 3
 df = pd.concat([df1, df2, df3])
 df = df.drop(['size'], axis=1)
-mg_values = df['data'].values
-X = np.array([np.asarray(i) for i in mg_values])
+X = df['data'].values
 y = df['label'].values
-X = X.reshape(81, -1)
-print(X.shape)
-print(y.shape)
 
-# Training model
-X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=35, shuffle=True)
-model = RandomForestClassifier()
-model.fit(X_train, y_train)
-y_pred = model.predict(X_test)
-print('Model score: ',  model.score(X_test, y_test))
-print('Accuracy: ', accuracy_score(y_test, y_pred))
-print('Recall: ', recall_score(y_test, y_pred, average='weighted'))
-print('Precision: ', precision_score(y_test, y_pred, average='weighted'))
-print('F1 score: ', f1_score(y_test, y_pred, average='weighted'))
+# print(np.asarray(df1['data'][0]))
+test = np.asarray(df1['data'][0])
+arr = np.empty((336, 336, 3), int)
+
+for i in range(len(df1['data'])):
+    temp_arr = np.asarray(df1['data'][i])
+    np.concatenate((arr, temp_arr), axis=0)
+
+# print(arr)
+print(test)
