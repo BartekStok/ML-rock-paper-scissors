@@ -2,6 +2,7 @@ import joblib
 import os
 from PIL import Image
 import re
+from rps_model.constants import PATHS, LABELS
 
 
 def image_convert(image_names, path_to_images):
@@ -17,6 +18,11 @@ def image_convert(image_names, path_to_images):
         image_dict['data'].append(f)
         image_dict['size'].append(f.size)
     joblib.dump(image_dict, f'./data/{label[0]}.pkl')
+
+# TODO function for image resizing
+# TODO function for image to right format converting
+# TODO class or functions?
+# TODO maybe one class, two functions (converting, saving)
 
 
 url_rock = '../../../Obrazy/rock/'
