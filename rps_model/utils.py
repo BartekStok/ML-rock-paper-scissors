@@ -1,13 +1,14 @@
-import matplotlib as plt
 import joblib
-import numpy as np
 import os
 from PIL import Image
 import re
 
 
 def image_convert(image_names, path_to_images):
-    """Converts images to a dict with apropriate label and size"""
+    """
+    Converts images to a dict with apropriate label and size to ndarray
+    Then saves it to pickle file
+    """
     image_dict = {'label': [], 'data': [], 'size': []}
     label = re.findall(r'(rock|paper|scissors)', path_to_images)
     for image in image_names:
@@ -15,7 +16,7 @@ def image_convert(image_names, path_to_images):
         image_dict['label'].append(label[0])
         image_dict['data'].append(f)
         image_dict['size'].append(f.size)
-    joblib.dump(image_dict, f'{label[0]}.pkl')
+    joblib.dump(image_dict, f'./data/{label[0]}.pkl')
 
 
 url_rock = '../../../Obrazy/rock/'
@@ -27,4 +28,3 @@ scissors_image_list = os.listdir(url_scissors)
 image_convert(rock_image_list, url_rock)
 image_convert(paper_image_list, url_paper)
 image_convert(scissors_image_list, url_scissors)
-

@@ -10,6 +10,7 @@ from sklearn.tree import DecisionTreeClassifier, export_graphviz
 
 pd.options.display.max_columns = 8
 
+
 df = pd.read_csv('titanic.csv')
 df['male'] = df['Sex'] == 'male'
 feature_names = ['Pclass', 'male', 'Age', 'Siblings/Spouses', 'Parents/Children', 'Fare']
