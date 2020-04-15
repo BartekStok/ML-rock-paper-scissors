@@ -23,8 +23,12 @@ mg_values = df['data'].values
 X = np.array([np.asarray(i) for i in mg_values])
 y = df['label'].values
 X = X.reshape(81, -1)
-print(X.shape)
-print(y.shape)
+
+plt.imshow(mg_values[45])
+plt.show()
+rock_test = mg_values[45]
+rock_test = np.asarray(rock_test)
+rock_test = rock_test.reshape(1, -1)
 
 # Training model
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=35, shuffle=True)
@@ -36,3 +40,5 @@ print('Accuracy: ', accuracy_score(y_test, y_pred))
 print('Recall: ', recall_score(y_test, y_pred, average='weighted'))
 print('Precision: ', precision_score(y_test, y_pred, average='weighted'))
 print('F1 score: ', f1_score(y_test, y_pred, average='weighted'))
+
+print(model.predict(rock_test))
