@@ -10,4 +10,7 @@ LABELS = [
     'scissors'
 ]
 
-IMG_SIZE = (336, 336)
+IMG_SIZE = (
+    336,
+    336
+)

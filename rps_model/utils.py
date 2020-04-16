@@ -4,7 +4,6 @@ from PIL import Image
 import re
 from rps_model.constants import PATHS, LABELS, IMG_SIZE
 
-
 class ImageUtils:
 
     @staticmethod
@@ -24,8 +23,8 @@ class ImageUtils:
         if img.size == IMG_SIZE:
             return print(f"Image is already in good size {IMG_SIZE}")
         else:
-            img.resize()
-            img.save()
+            img = img.resize(IMG_SIZE)
+            img.save(os.path.join(path_to_image, image_name), 'JPEG')
             return print("Image is resized to 336x336")
 
 
