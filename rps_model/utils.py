@@ -2,7 +2,31 @@ import joblib
 import os
 from PIL import Image
 import re
-from rps_model.constants import PATHS, LABELS
+from rps_model.constants import PATHS, LABELS, IMG_SIZE
+
+
+class ImageUtils:
+
+    @staticmethod
+    def single_image_resize(path_to_image, image_name):
+        """
+        Function to resize single Image
+
+        @param path_to_image: Path to an Image
+        @param image_name: Image name
+        @return: Information if image was found, or has a good size, or was
+                successfully resized
+        """
+        try:
+            img = Image.open(os.path.join(path_to_image, image_name))
+        except FileNotFoundError:
+            return print("There is no such file! Please check path or image name.")
+        if img.size == IMG_SIZE:
+            return print(f"Image is already in good size {IMG_SIZE}")
+        else:
+            img.resize()
+            img.save()
+            return print("Image is resized to 336x336")
 
 
 def image_convert(image_names, path_to_images):

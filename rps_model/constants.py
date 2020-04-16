@@ -9,3 +9,5 @@ LABELS = [
     'paper',
     'scissors'
 ]
+
+IMG_SIZE = (336, 336)
