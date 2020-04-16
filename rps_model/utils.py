@@ -12,9 +12,9 @@ class ImageUtils:
         """
         Function to resize single Image
 
-        @param path_to_image: Path to an Image
-        @param image_name: Image name
-        @return: Information if image was found, or has a good size, or was
+        :param path_to_image: Path to an Image
+        :param image_name: Image name
+        :return: Information if image was found, or has a good size, or was
                 successfully resized
         """
         try:
@@ -31,8 +31,9 @@ class ImageUtils:
     def multi_image_resize(path_to_folder):
         """
         Function to resize multiple images
-        @param path_to_folder: Path to folder
-        @return: Returns information if image was resized, is in good size, or was not found
+
+        :param path_to_folder: Path to folder
+        :return: Returns information if image was resized, is in good size, or was not found
         """
         try:
             image_list = os.listdir(path_to_folder)
@@ -55,8 +56,8 @@ class ImageUtils:
         """
         Function to save images to one pickle file
 
-        @param path_to_folder: Path to folder
-        @return: Saves images as folder_name.pkl in data folder
+        :param path_to_folder: Path to folder
+        :return: Saves images as folder_name.pkl in data folder
         """
         try:
             image_names = os.listdir(path_to_folder)
