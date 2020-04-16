@@ -13,20 +13,21 @@ data_rock = joblib.load('data/rock.pkl')
 data_paper = joblib.load('data/paper.pkl')
 data_scissors = joblib.load('data/scissors.pkl')
 
+# TODO function to load data, concatenate, return df, in utils.py
 # preparing DataFrame
 df1 = pd.DataFrame(data_rock)      # 1
 df2 = pd.DataFrame(data_paper)     # 2
 df3 = pd.DataFrame(data_scissors)  # 3
 df = pd.concat([df1, df2, df3])
 df = df.drop(['size'], axis=1)
-mg_values = df['data'].values
-X = np.array([np.asarray(i) for i in mg_values])
+img_values = df['data'].values
+img_array = np.array([np.asarray(i) for i in img_values])
+X = img_array.reshape(81, -1)
 y = df['label'].values
-X = X.reshape(81, -1)
 
-plt.imshow(mg_values[45])
+plt.imshow(img_values[26])
 plt.show()
-rock_test = mg_values[45]
+rock_test = img_values[26]
 rock_test = np.asarray(rock_test)
 rock_test = rock_test.reshape(1, -1)
 
