@@ -1,8 +1,9 @@
 import joblib
 import os
-from PIL import Image
 import re
-from rps_model.constants import PATHS, LABELS, IMG_SIZE
+from PIL import Image
+from rps_model.constants import IMG_SIZE
+
 
 class ImageUtils:
 
@@ -22,10 +23,32 @@ class ImageUtils:
             return print("There is no such file! Please check path or image name.")
         if img.size == IMG_SIZE:
             return print(f"Image is already in good size {IMG_SIZE}")
-        else:
-            img = img.resize(IMG_SIZE)
-            img.save(os.path.join(path_to_image, image_name), 'JPEG')
-            return print("Image is resized to 336x336")
+        img = img.resize(IMG_SIZE)
+        img.save(os.path.join(path_to_image, image_name), 'JPEG')
+        return print(f"Image is resized to {IMG_SIZE}")
+
+    @staticmethod
+    def multi_image_resize(path_to_folder):
+        """
+        Function to resize multiple images
+        @param path_to_folder: Path to folder
+        @return: Returns information if image was resized, is in good size, or was not found
+        """
+        try:
+            image_list = os.listdir(path_to_folder)
+        except FileNotFoundError:
+            return print("There is no such directory! Please check path to folder.")
+        if not image_list:
+            return print("Folder is empty!")
+        for img in image_list:
+            edited_image = Image.open(os.path.join(path_to_folder, img))
+            if edited_image.size == IMG_SIZE:
+                print(f"Image {edited_image} is in good size {IMG_SIZE}")
+            else:
+                edited_image = edited_image.resize(IMG_SIZE)
+                edited_image.save(os.path.join(path_to_folder, img))
+                print(f"Image {edited_image} was resized to {IMG_SIZE}")
+        return print("Resizing done!")
 
 
 def image_convert(image_names, path_to_images):
@@ -41,6 +64,7 @@ def image_convert(image_names, path_to_images):
         image_dict['data'].append(f)
         image_dict['size'].append(f.size)
     joblib.dump(image_dict, f'./data/{label[0]}.pkl')
+
 
 # TODO function for image resizing
 # TODO function for image to right format converting
