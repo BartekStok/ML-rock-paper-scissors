@@ -19,7 +19,7 @@ df1 = pd.DataFrame(data_rock)      # 1
 df2 = pd.DataFrame(data_paper)     # 2
 df3 = pd.DataFrame(data_scissors)  # 3
 df = pd.concat([df1, df2, df3])
-df = df.drop(['size'], axis=1)
+# df = df.drop(['size'], axis=1)
 img_values = df['data'].values
 img_array = np.array([np.asarray(i) for i in img_values])
 X = img_array.reshape(81, -1)
@@ -43,3 +43,5 @@ print('Precision: ', precision_score(y_test, y_pred, average='weighted'))
 print('F1 score: ', f1_score(y_test, y_pred, average='weighted'))
 
 print(model.predict(rock_test))
+
+joblib.dump(model, 'model.joblib')

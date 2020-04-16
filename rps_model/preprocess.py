@@ -1,10 +1,6 @@
-from rps_model.constants import LABELS, PATHS
+from rps_model.constants import PATHS
 from rps_model.utils import ImageUtils
 
-
-
-
-
-image_convert(rock_image_list, url_rock)
-image_convert(paper_image_list, url_paper)
-image_convert(scissors_image_list, url_scissors)
+for p in PATHS:
+    ImageUtils.multi_image_resize(p)
+    ImageUtils.images_to_pkl(p)

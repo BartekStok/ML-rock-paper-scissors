@@ -52,6 +52,12 @@ class ImageUtils:
 
     @staticmethod
     def images_to_pkl(path_to_folder):
+        """
+        Function to save images to one pickle file
+
+        @param path_to_folder: Path to folder
+        @return: Saves images as folder_name.pkl in data folder
+        """
         try:
             image_names = os.listdir(path_to_folder)
         except FileNotFoundError:
@@ -65,4 +71,5 @@ class ImageUtils:
             f = Image.open(os.path.join(path_to_folder, image))
             image_dict['label'].append(label)
             image_dict['data'].append(f)
-        joblib.dump(image_dict, f'./data/{label[0]}.pkl')
+        joblib.dump(image_dict, f'./data/{label}.pkl')
+        return print(f"Saved to data/{label}.pkl")

@@ -1,15 +1,16 @@
-# TODO model evaluating, prediction all here
-from rps_model.utils import ImageUtils
+import joblib
 from PIL import Image
 import os
-from rps_model.constants import IMG_SIZE
+import numpy as np
+
+
+model = joblib.load('model.joblib')
 
 path = '../../../Obrazy/zdj_reka/'
-image_name = 'img-20200414-wa0002.jpg'
-# ImageUtils.single_image_resize(path_to_image=path, image_name=image_name)
-
-# im = Image.open(os.path.join(path, image_name))
-# im = im.resize((450,450))
-# im.save(os.path.join(path, image_name), 'JPEG')
-
-ImageUtils.multi_image_resize(path)
+image_name = '20.jpg'
+im = Image.open(os.path.join(path, image_name))
+im_np = np.asarray(im)
+print(im_np.reshape(1, -1))
+im_np = im_np.reshape(1, -1)
+im.show()
+print(model.predict(im_np))
