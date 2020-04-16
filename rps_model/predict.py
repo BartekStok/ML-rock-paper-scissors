@@ -12,3 +12,4 @@ image_name = 'img-20200414-wa0002.jpg'
 # im = im.resize((450,450))
 # im.save(os.path.join(path, image_name), 'JPEG')
 
+ImageUtils.multi_image_resize(path)

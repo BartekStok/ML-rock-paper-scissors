@@ -2,7 +2,7 @@ import joblib
 import os
 import re
 from PIL import Image
-from rps_model.constants import IMG_SIZE
+from rps_model.constants import IMG_SIZE, LABELS
 
 
 class ImageUtils:
@@ -46,38 +46,23 @@ class ImageUtils:
                 print(f"Image {edited_image} is in good size {IMG_SIZE}")
             else:
                 edited_image = edited_image.resize(IMG_SIZE)
-                edited_image.save(os.path.join(path_to_folder, img))
+                edited_image.save(os.path.join(path_to_folder, img), 'JPEG')
                 print(f"Image {edited_image} was resized to {IMG_SIZE}")
         return print("Resizing done!")
 
-
-def image_convert(image_names, path_to_images):
-    """
-    Converts images to a dict with appropriate label and size to np array
-    Then saves it to pickle file
-    """
-    image_dict = {'label': [], 'data': [], 'size': []}
-    label = re.findall(r'(rock|paper|scissors)', path_to_images)
-    for image in image_names:
-        f = Image.open(os.path.join(path_to_images, image))
-        image_dict['label'].append(label[0])
-        image_dict['data'].append(f)
-        image_dict['size'].append(f.size)
-    joblib.dump(image_dict, f'./data/{label[0]}.pkl')
-
-
-# TODO function for image resizing
-# TODO function for image to right format converting
-# TODO class or functions?
-# TODO maybe one class, two functions (converting, saving)
-
-
-url_rock = '../../../Obrazy/rock/'
-url_paper = '../../../Obrazy/paper/'
-url_scissors = '../../../Obrazy/scissors/'
-rock_image_list = os.listdir(url_rock)
-paper_image_list = os.listdir(url_paper)
-scissors_image_list = os.listdir(url_scissors)
-image_convert(rock_image_list, url_rock)
-image_convert(paper_image_list, url_paper)
-image_convert(scissors_image_list, url_scissors)
+    @staticmethod
+    def images_to_pkl(path_to_folder):
+        try:
+            image_names = os.listdir(path_to_folder)
+        except FileNotFoundError:
+            return print("There is no such directory! Please check path to folder.")
+        if not image_names:
+            return print("Folder is empty!")
+        image_dict = {'label': [], 'data': []}
+        labels = re.compile("".join([i + "|" for i in LABELS]).rstrip("|"))
+        label = re.findall(labels, path_to_folder)[0]
+        for image in image_names:
+            f = Image.open(os.path.join(path_to_folder, image))
+            image_dict['label'].append(label)
+            image_dict['data'].append(f)
+        joblib.dump(image_dict, f'./data/{label[0]}.pkl')
