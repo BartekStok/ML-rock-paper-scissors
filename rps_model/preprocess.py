@@ -1,4 +1,4 @@
-from rps_model.constants import PATHS
+from rps_model.settings import PATHS
 from rps_model.utils import ImageUtils
 
 for p in PATHS:

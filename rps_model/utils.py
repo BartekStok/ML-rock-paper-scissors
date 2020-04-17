@@ -2,7 +2,7 @@ import joblib
 import os
 import re
 from PIL import Image
-from rps_model.constants import IMG_SIZE, LABELS
+from rps_model.settings import IMG_SIZE, LABELS
 
 
 class ImageUtils:
