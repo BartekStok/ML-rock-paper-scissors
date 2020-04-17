@@ -27,27 +27,53 @@ img_array = np.array([np.asarray(i) for i in img_values])
 X = img_array.reshape(img_values.size, -1)
 y = df['label'].values
 
-# Plotting sample pictures
-labels = np.unique(y)
-fig, axes = plt.subplots(1, labels.size)
-fig.tight_layout()
-fig.suptitle('Random pictures example', fontsize=25)
-for ax, label in zip(axes, labels):
-    idx = np.random.choice(np.argwhere(y == label).reshape(-1))
-    ax.imshow(img_values[idx])
-    ax.set_title(y[idx], fontsize=18)
-    ax.axis('off')
-fig.show()
 
-# Plotting number of each samples in sample train and test split
-plot_train_X, plot_test_X, plot_train_y, plot_test_y = train_test_split(
-    X,
-    y,
-    shuffle=True,
-    random_state=36
-)
-fig2, ax = plt.subplots(1)
-fig2.show()
+def plot_image():
+    """
+    PLots sample images with labels
+    """
+    labels = np.unique(y)
+    fig, axes = plt.subplots(1, labels.size)
+    fig.tight_layout()
+    fig.suptitle('Random pictures example', fontsize=25)
+    for ax, label in zip(axes, labels):
+        idx = np.random.choice(np.argwhere(y == label).reshape(-1))
+        ax.imshow(img_values[idx])
+        ax.set_title(y[idx], fontsize=18)
+        ax.axis('off')
+    fig.show()
+
+
+def plot_amount():
+    """
+    Plotting number of each samples in sample train and test split
+    """
+    plot_train_X, plot_test_X, plot_train_y, plot_test_y = train_test_split(
+        X,
+        y,
+        shuffle=True,
+        random_state=36
+    )
+    labels = np.unique(y)
+    bar_count = np.arange(labels.size)
+    width = 0.35
+    fig, ax = plt.subplots()
+    ax.set_xlabel('Labels')
+    ax.set_ylabel('Amount')
+    ax.set_title('Relative amount of images per type')
+    ax.set_xticks(bar_count)
+    ax.set_xticklabels(labels)
+    ax.bar(bar_count - width/2, (plot_train_y == 'rock').sum(), width, label='rock')
+    ax.bar(bar_count + width/2, (plot_test_y == 'rock').sum(), width,  label='rock')
+    ax.annotate(plot_train_y.size, xy=(-1, 1))
+    ax.legend()
+    fig.show()
+
+
+# Plotting
+plot_image()
+plot_amount()
+
 
 # Cross Validation
 # kf = KFold(n_splits=6, shuffle=True)
