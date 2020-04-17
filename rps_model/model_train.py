@@ -46,26 +46,52 @@ def plot_image():
 
 def plot_amount():
     """
-    Plotting number of each samples in sample train and test split
+    Plotting amount of each sample divided by (train and test) split
     """
+
+    # Splitting X and y, preparing data
     plot_train_X, plot_test_X, plot_train_y, plot_test_y = train_test_split(
         X,
         y,
         shuffle=True,
-        random_state=36
+        # random_state=36
     )
     labels = np.unique(y)
     bar_count = np.arange(labels.size)
+    amounts_train = [(plot_train_y == label).sum() for label in labels]
+    amounts_test = [(plot_test_y == label).sum() for label in labels]
     width = 0.35
+    # Setting up plot space
     fig, ax = plt.subplots()
-    ax.set_xlabel('Labels')
-    ax.set_ylabel('Amount')
-    ax.set_title('Relative amount of images per type')
+    ax.set_xlabel('Labels', fontsize=16)
+    ax.set_ylabel('Amount', fontsize=16)
+    ax.set_title('Amount of images per type', fontsize=16)
     ax.set_xticks(bar_count)
     ax.set_xticklabels(labels)
-    ax.bar(bar_count - width/2, (plot_train_y == 'rock').sum(), width, label='rock')
-    ax.bar(bar_count + width/2, (plot_test_y == 'rock').sum(), width,  label='rock')
-    ax.annotate(plot_train_y.size, xy=(-1, 1))
+    ax.set_ylim(0, (np.max([amounts_train]) + 10))
+    # Plotting each bar with given data
+    bar1 = ax.bar(bar_count - width/2, amounts_train,
+                  width,
+                  label=f'Train - {sum(amounts_train)} images')
+    bar2 = ax.bar(bar_count + width/2, amounts_test,
+                  width,
+                  label=f'Test - {sum(amounts_test)} images')
+    # Adding number of samples over bars
+    for b1, b2 in zip(bar1, bar2):
+        ax.annotate(f'{b1.get_height()}',
+                    xy=(b1.get_x() + b1.get_width() / 2, b1.get_height()),
+                    xytext=(0, 2),
+                    textcoords='offset points',
+                    ha='center',
+                    va='bottom'
+                    )
+        ax.annotate(f'{b2.get_height()}',
+                    xy=(b2.get_x() + b2.get_width() / 2, b2.get_height()),
+                    xytext=(0, 2),
+                    textcoords='offset points',
+                    ha='center',
+                    va='bottom'
+                    )
     ax.legend()
     fig.show()
 
