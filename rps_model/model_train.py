@@ -42,6 +42,7 @@ print('Recall: ', recall_score(y_test, y_pred, average='weighted'))
 print('Precision: ', precision_score(y_test, y_pred, average='weighted'))
 print('F1 score: ', f1_score(y_test, y_pred, average='weighted'))
 
-print(model.predict(rock_test))
 
-joblib.dump(model, 'model.joblib')
+# print(model.predict(rock_test))
+
+# joblib.dump(model, 'model.joblib')

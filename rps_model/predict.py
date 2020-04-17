@@ -14,3 +14,4 @@ print(im_np.reshape(1, -1))
 im_np = im_np.reshape(1, -1)
 im.show()
 print(model.predict(im_np))
+
