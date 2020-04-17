@@ -212,5 +212,5 @@ fabric.properties
 #scissors.pkl
 #digits.pkl
 data
-exercises_01
-exercises_02
+/exercises_02/
+/exercises_01/
