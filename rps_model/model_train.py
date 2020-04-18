@@ -32,6 +32,7 @@ def plot_image():
     """
     PLots sample images with labels
     """
+
     labels = np.unique(y)
     fig, axes = plt.subplots(1, labels.size)
     fig.tight_layout()
