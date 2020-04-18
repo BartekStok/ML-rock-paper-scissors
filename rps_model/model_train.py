@@ -8,20 +8,23 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_curve
 from sklearn.model_selection._split import KFold
+from rps_model.settings import LABELS
 
 
-# load data from files
-data_rock = joblib.load('data/rock.pkl')
-data_paper = joblib.load('data/paper.pkl')
-data_scissors = joblib.load('data/scissors.pkl')
+def load_data_frame():
+    """
+    Loads data from files and concatenates
 
-# TODO function to load data, concatenate, return df, in utils.py
-# preparing DataFrame
-df1 = pd.DataFrame(data_rock)      # 1
-df2 = pd.DataFrame(data_paper)     # 2
-df3 = pd.DataFrame(data_scissors)  # 3
-df = pd.concat([df1, df2, df3])
-# df = df.drop(['size'], axis=1)
+    :return: Concatenated Pandas DataFrame
+    """
+    paths = [f'data/{label}.pkl' for label in LABELS]
+    single_df = [pd.DataFrame(joblib.load(path)) for path in paths]
+    df_concat = pd.concat(single_df)
+    return df_concat
+
+
+# Load data and set X and y
+df = load_data_frame()
 img_values = df['data'].values
 img_array = np.array([np.asarray(i) for i in img_values])
 X = img_array.reshape(img_values.size, -1)
@@ -47,7 +50,7 @@ def plot_image():
 
 def plot_amount():
     """
-    Plotting amount of each sample divided by (train and test) split
+    Plotting amount of each sample divided for (train and test) split
     """
 
     # Splitting X and y, preparing data
@@ -71,12 +74,16 @@ def plot_amount():
     ax.set_xticklabels(labels)
     ax.set_ylim(0, (np.max([amounts_train]) + 10))
     # Plotting each bar with given data
-    bar1 = ax.bar(bar_count - width/2, amounts_train,
+    bar1 = ax.bar(bar_count - width/2,
+                  amounts_train,
                   width,
-                  label=f'Train - {sum(amounts_train)} images')
-    bar2 = ax.bar(bar_count + width/2, amounts_test,
+                  label=f'Train - {sum(amounts_train)} images'
+                  )
+    bar2 = ax.bar(bar_count + width/2,
+                  amounts_test,
                   width,
-                  label=f'Test - {sum(amounts_test)} images')
+                  label=f'Test - {sum(amounts_test)} images'
+                  )
     # Adding number of samples over bars
     for b1, b2 in zip(bar1, bar2):
         ax.annotate(f'{b1.get_height()}',
