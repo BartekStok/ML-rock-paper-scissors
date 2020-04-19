@@ -3,11 +3,19 @@ import matplotlib.pyplot as plt
 from matplotlib import image
 import joblib
 import pandas as pd
-from collections import defaultdict
+from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
+from sklearn.gaussian_process import GaussianProcessClassifier
+from sklearn.gaussian_process.kernels import RBF
+from sklearn.linear_model import SGDClassifier
 from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_curve
 from sklearn.model_selection._split import KFold
+from sklearn.naive_bayes import GaussianNB
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.neural_network import MLPClassifier
+from sklearn.svm import SVC
+from sklearn.tree import DecisionTreeClassifier
 from rps_model.settings import LABELS
 
 
@@ -109,33 +117,47 @@ plot_image()
 plot_amount()
 
 
-# Cross Validation
-# kf = KFold(n_splits=6, shuffle=True)
-# splits = kf.split(X)
-#
-# model_accuracy = []
-# model_precision = []
-# model_recall = []
-# model_f1score = []
-# for split in splits:
-#     train_indices, test_indices = split
-#     X_train = X[train_indices]
-#     X_test = X[test_indices]
-#     y_train = y[train_indices]
-#     y_test = y[test_indices]
-#     model = RandomForestClassifier()
-#     model.fit(X_train, y_train)
-#     y_pred = model.predict(X_test)
-#     y_pred_proba = model.predict_proba(X_test)
-#     model_accuracy.append(accuracy_score(y_test, y_pred))
-#     model_precision.append(precision_score(y_test, y_pred, average='weighted'))
-#     model_recall.append(recall_score(y_test, y_pred, average='weighted'))
-#     model_f1score.append(f1_score(y_test, y_pred, average='weighted'))
-#
+def cross_validation():
+    classifiers = [
+        KNeighborsClassifier(3),
+        SVC(kernel="linear", C=0.025),
+        SVC(gamma=2, C=1),
+        GaussianProcessClassifier(1.0 * RBF(1.0)),
+        DecisionTreeClassifier(max_depth=5),
+        RandomForestClassifier(max_depth=5, n_estimators=10, max_features=1),
+        MLPClassifier(alpha=1, max_iter=1000),
+        AdaBoostClassifier(),
+        GaussianNB(),
+        QuadraticDiscriminantAnalysis(),
+        SGDClassifier()
+    ]
+    kf = KFold(n_splits=5, shuffle=True)
+    splits = kf.split(X)
+
+    model_accuracy = []
+    model_precision = []
+    model_recall = []
+    model_f1score = []
+    for split in splits:
+        train_indices, test_indices = split
+        X_train = X[train_indices]
+        X_test = X[test_indices]
+        y_train = y[train_indices]
+        y_test = y[test_indices]
+        model = RandomForestClassifier()
+        model.fit(X_train, y_train)
+        y_pred = model.predict(X_test)
+        y_pred_proba = model.predict_proba(X_test)
+        model_accuracy.append(accuracy_score(y_test, y_pred))
+        model_precision.append(precision_score(y_test, y_pred, average='weighted'))
+        model_recall.append(recall_score(y_test, y_pred, average='weighted'))
+        model_f1score.append(f1_score(y_test, y_pred, average='weighted'))
+
+
 # print('Accuracy: ', np.mean(model_accuracy))
-# print('Recall: ', np.mean(model_recall))
-# print('Precision: ', np.mean(model_precision))
-# print('F1 score: ', np.mean(model_f1score))
+#     print('Recall: ', np.mean(model_recall))
+#     print('Precision: ', np.mean(model_precision))
+#     print('F1 score: ', np.mean(model_f1score))
 
 # Plotting results
 # fig, ax = plt.subplots()
