@@ -82,12 +82,12 @@ def plot_amount():
     ax.set_xticklabels(labels)
     ax.set_ylim(0, (np.max([amounts_train]) + 10))
     # Plotting each bar with given data
-    bar1 = ax.bar(bar_count - width/2,
+    bar1 = ax.bar(bar_count - width / 2,
                   amounts_train,
                   width,
                   label=f'Train - {sum(amounts_train)} images'
                   )
-    bar2 = ax.bar(bar_count + width/2,
+    bar2 = ax.bar(bar_count + width / 2,
                   amounts_test,
                   width,
                   label=f'Test - {sum(amounts_test)} images'
@@ -186,20 +186,17 @@ def cross_validation():
 
 
 # Training model
-# X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=35, shuffle=True)
-# model = RandomForestClassifier()
-# model.fit(X_train, y_train)
-# y_pred = model.predict(X_test)
-# print('Model score: ',  model.score(X_test, y_test))
-# print('Accuracy: ', accuracy_score(y_test, y_pred))
-# print('Recall: ', recall_score(y_test, y_pred, average='weighted'))
-# print('Precision: ', precision_score(y_test, y_pred, average='weighted'))
-# print('F1 score: ', f1_score(y_test, y_pred, average='weighted'))
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=36, shuffle=True)
+model = SGDClassifier()
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+print('Model score: ', model.score(X_test, y_test))
+print('Accuracy: ', accuracy_score(y_test, y_pred))
+print('Recall: ', recall_score(y_test, y_pred, average='weighted'))
+print('Precision: ', precision_score(y_test, y_pred, average='weighted'))
+print('F1 score: ', f1_score(y_test, y_pred, average='weighted'))
 
 # final_model = RandomForestClassifier()
+# final_model = SGDClassifier()
 # final_model.fit(X, y)
 # joblib.dump(final_model, 'model.joblib')
-
-
-ppp = pd.read_csv()
-ppp.describe()
