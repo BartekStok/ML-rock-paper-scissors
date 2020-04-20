@@ -131,27 +131,45 @@ def cross_validation():
         QuadraticDiscriminantAnalysis(),
         SGDClassifier()
     ]
+    names = [
+        "Nearest Neighbors",
+        "Linear SVM",
+        "RBF SVM",
+        "Gaussian Process",
+        "Decision Tree",
+        "Random Forest",
+        "Neural Net",
+        "AdaBoost",
+        "Naive Bayes",
+        "QDA",
+        "SGD"
+    ]
     kf = KFold(n_splits=5, shuffle=True)
-    splits = kf.split(X)
+    splits = list(kf.split(X))
+    cv_result = {}
+    for classifier, name in zip(classifiers, names):
+        model = classifier
+        model_accuracy = []
+        model_precision = []
+        model_recall = []
+        model_f1score = []
+        for split in splits:
+            train_indices, test_indices = split
+            X_train = X[train_indices]
+            X_test = X[test_indices]
+            y_train = y[train_indices]
+            y_test = y[test_indices]
+            model.fit(X_train, y_train)
+            y_pred = model.predict(X_test)
+            model_accuracy.append(accuracy_score(y_test, y_pred))
+            model_precision.append(precision_score(y_test, y_pred, average='weighted'))
+            model_recall.append(recall_score(y_test, y_pred, average='weighted'))
+            model_f1score.append(f1_score(y_test, y_pred, average='weighted'))
+        cv_result[name] = [model_accuracy, model_precision, model_recall, model_f1score]
+    return cv_result
 
-    model_accuracy = []
-    model_precision = []
-    model_recall = []
-    model_f1score = []
-    for split in splits:
-        train_indices, test_indices = split
-        X_train = X[train_indices]
-        X_test = X[test_indices]
-        y_train = y[train_indices]
-        y_test = y[test_indices]
-        model = RandomForestClassifier()
-        model.fit(X_train, y_train)
-        y_pred = model.predict(X_test)
-        y_pred_proba = model.predict_proba(X_test)
-        model_accuracy.append(accuracy_score(y_test, y_pred))
-        model_precision.append(precision_score(y_test, y_pred, average='weighted'))
-        model_recall.append(recall_score(y_test, y_pred, average='weighted'))
-        model_f1score.append(f1_score(y_test, y_pred, average='weighted'))
+
+# cv_result = cross_validation()
 
 
 # print('Accuracy: ', np.mean(model_accuracy))
@@ -184,3 +202,7 @@ def cross_validation():
 # final_model = RandomForestClassifier()
 # final_model.fit(X, y)
 # joblib.dump(final_model, 'model.joblib')
+
+
+ppp = pd.read_csv()
+ppp.describe()
