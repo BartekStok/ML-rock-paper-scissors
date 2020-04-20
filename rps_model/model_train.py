@@ -118,6 +118,11 @@ plot_amount()
 
 
 def cross_validation():
+    """
+    Computes multiple classifiers, saves scores, plots data file
+
+    :return: Dict with classifiers scores
+    """
     classifiers = [
         KNeighborsClassifier(3),
         SVC(kernel="linear", C=0.025),
@@ -144,9 +149,11 @@ def cross_validation():
         "QDA",
         "SGD"
     ]
+    # Splitting data for cross validation
     kf = KFold(n_splits=5, shuffle=True)
     splits = list(kf.split(X))
     cv_result = {}
+    # Iterates trough classifiers, saving each score to a dict
     for classifier, name in zip(classifiers, names):
         model = classifier
         model_accuracy = []
@@ -166,6 +173,12 @@ def cross_validation():
             model_recall.append(recall_score(y_test, y_pred, average='weighted'))
             model_f1score.append(f1_score(y_test, y_pred, average='weighted'))
         cv_result[name] = [model_accuracy, model_precision, model_recall, model_f1score]
+    # Saving to a data file
+    export_df = pd.DataFrame()
+    for key, values in cv_result.items():
+        export_df[f'{key}'] = values
+    export_df.to_csv('data/cv_result.csv')
+
     return cv_result
 
 
