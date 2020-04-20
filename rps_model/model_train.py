@@ -185,22 +185,6 @@ def cross_validation():
 # cv_result = cross_validation()
 
 
-# print('Accuracy: ', np.mean(model_accuracy))
-#     print('Recall: ', np.mean(model_recall))
-#     print('Precision: ', np.mean(model_precision))
-#     print('F1 score: ', np.mean(model_f1score))
-
-# Plotting results
-# fig, ax = plt.subplots()
-# ax.scatter(X_test[:, 0], y_pred_proba[:, 0], label='rock')
-# ax.scatter(X_test[:, 0], y_pred_proba[:, 1], label='paper')
-# ax.scatter(X_test[:, 0], y_pred_proba[:, 2], label='scissors')
-#
-# # plt.subplot()
-# # plt.plot()
-#
-# fig.show()
-
 # Training model
 # X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=35, shuffle=True)
 # model = RandomForestClassifier()
