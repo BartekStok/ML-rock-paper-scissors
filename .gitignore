@@ -206,11 +206,9 @@ fabric.properties
 .idea/
 
 # Custom files
-#example_model_graph.py
-#paper.pkl
-#rock.pkl
-#scissors.pkl
-#digits.pkl
-data
-/exercises_02/
-/exercises_01/
+paper.pkl
+rock.pkl
+scissors.pkl
+#data
+exercises_01/
+exercises_02/
