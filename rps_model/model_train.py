@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib import image
 import joblib
 import pandas as pd
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
@@ -9,7 +8,7 @@ from sklearn.gaussian_process.kernels import RBF
 from sklearn.linear_model import SGDClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_curve
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_curve, confusion_matrix
 from sklearn.model_selection._split import KFold
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
@@ -37,6 +36,12 @@ img_values = df['data'].values
 img_array = np.array([np.asarray(i) for i in img_values])
 X = img_array.reshape(img_values.size, -1)
 y = df['label'].values
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    shuffle=True,
+    random_state=36
+)
 
 
 def plot_image():
@@ -62,16 +67,16 @@ def plot_amount():
     """
 
     # Splitting X and y, preparing data
-    plot_train_X, plot_test_X, plot_train_y, plot_test_y = train_test_split(
-        X,
-        y,
-        shuffle=True,
-        # random_state=36
-    )
+    # plot_train_X, plot_test_X, plot_train_y, plot_test_y = train_test_split(
+    #     X,
+    #     y,
+    #     shuffle=True,
+    #     # random_state=36
+    # )
     labels = np.unique(y)
     bar_count = np.arange(labels.size)
-    amounts_train = [(plot_train_y == label).sum() for label in labels]
-    amounts_test = [(plot_test_y == label).sum() for label in labels]
+    amounts_train = [(y_train == label).sum() for label in labels]
+    amounts_test = [(y_test == label).sum() for label in labels]
     width = 0.35
     # Setting up plot space
     fig, ax = plt.subplots()
@@ -182,11 +187,10 @@ def cross_validation():
     return cv_result
 
 
-# cv_result = cross_validation()
+# cv_result = cross_validation()  # Computing time about 10 min by 100 samples!
 
 
 # Training model
-X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=36, shuffle=True)
 model = SGDClassifier()
 model.fit(X_train, y_train)
 y_pred = model.predict(X_test)
@@ -195,8 +199,47 @@ print('Accuracy: ', accuracy_score(y_test, y_pred))
 print('Recall: ', recall_score(y_test, y_pred, average='weighted'))
 print('Precision: ', precision_score(y_test, y_pred, average='weighted'))
 print('F1 score: ', f1_score(y_test, y_pred, average='weighted'))
+cmx = confusion_matrix(y_test, y_pred, labels=np.unique(y_test))
 
-# final_model = RandomForestClassifier()
+
+def conf_matrix(cmx):
+    """
+    Plots confusion matrix
+
+    :param cmx: Confusion matrix
+    """
+    fig, axis = plt.subplots(ncols=2)
+    labels = sorted(np.unique(y))
+    cmx_percent = cmx * 100 / cmx.sum(axis=1, keepdims=True)
+    data_set = [cmx, cmx_percent]
+    fig.suptitle('Confusion matrix', fontsize=18)
+    titles = ['Data as is', 'Percentage']
+    for ax, title, data in zip(axis, titles, data_set):
+        ax.imshow(data)
+        # ax.set_xticks(np.arange(len(labels)))
+        ax.set_yticks(np.arange(len(labels)))
+        ax.set_yticklabels(labels=labels)
+        ax.set_title(title)
+
+    for i in range(cmx.shape[0]):
+        for j in range(cmx.shape[1]):
+            text = axis[0].text(j, i, cmx[i, j],
+                           ha="center", va="center", color="w", fontsize=18)
+    for i in range(cmx_percent.shape[0]):
+        for j in range(cmx_percent.shape[1]):
+            text = axis[1].text(j, i, cmx_percent[i, j].round(0),
+                           ha="center", va="center", color="w", fontsize=18)
+
+    fig.tight_layout()
+    print(cmx)
+    fig.show()
+
+
+# Plot confusion matrix
+conf_matrix(cmx)
+
+
+# Final model train and save to file
 # final_model = SGDClassifier()
 # final_model.fit(X, y)
 # joblib.dump(final_model, 'model.joblib')
