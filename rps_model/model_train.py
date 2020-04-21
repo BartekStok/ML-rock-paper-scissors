@@ -5,10 +5,10 @@ import pandas as pd
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 from sklearn.gaussian_process import GaussianProcessClassifier
 from sklearn.gaussian_process.kernels import RBF
-from sklearn.linear_model import SGDClassifier
+from sklearn.linear_model import SGDClassifier, LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_curve, confusion_matrix
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
 from sklearn.model_selection._split import KFold
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
@@ -139,7 +139,8 @@ def cross_validation():
         AdaBoostClassifier(),
         GaussianNB(),
         QuadraticDiscriminantAnalysis(),
-        SGDClassifier()
+        SGDClassifier(),
+        LogisticRegression()
     ]
     names = [
         "Nearest Neighbors",
@@ -152,7 +153,8 @@ def cross_validation():
         "AdaBoost",
         "Naive Bayes",
         "QDA",
-        "SGD"
+        "SGD",
+        "Logistic Regression"
     ]
     # Splitting data for cross validation
     kf = KFold(n_splits=5, shuffle=True)
@@ -182,7 +184,7 @@ def cross_validation():
     export_df = pd.DataFrame()
     for key, values in cv_result.items():
         export_df[f'{key}'] = values
-    export_df.to_csv('data/cv_result.csv')
+    export_df.to_csv('data/cv_result_1.csv')
 
     return cv_result
 
@@ -194,7 +196,6 @@ def cross_validation():
 model = SGDClassifier()
 model.fit(X_train, y_train)
 y_pred = model.predict(X_test)
-print('Model score: ', model.score(X_test, y_test))
 print('Accuracy: ', accuracy_score(y_test, y_pred))
 print('Recall: ', recall_score(y_test, y_pred, average='weighted'))
 print('Precision: ', precision_score(y_test, y_pred, average='weighted'))

@@ -2,14 +2,16 @@
 PATHS = [
     '../../../Obrazy/rock/',
     '../../../Obrazy/paper/',
-    '../../../Obrazy/scissors/'
+    '../../../Obrazy/scissors/',
+    '../../../Obrazy/noise/'
 ]
 
-# Labels for prediction, must match witch folder name.
+# Labels for prediction, must match with folder name.
 LABELS = [
     'rock',
     'paper',
-    'scissors'
+    'scissors',
+    'noise'
 ]
 
 # Image size in pixels, for resizing process.
