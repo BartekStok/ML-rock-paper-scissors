@@ -40,14 +40,30 @@ Lastly choose size of picture.
 in given paths will be resized to chosen size! In data folder inside rps_model
 will appear files named after folder name.
 3. Run file `model_train.py`. There should appear plot with random samples
-like: 
-![random](rps_model/data/example_pic.png)
-
+like: <br>
+![random](rps_model/data/example_pic.png) <br>
 Plot with amounts of data to process:
-![amounts](rps_model/data/amounts.png)
-
+![amounts](rps_model/data/amounts.png) <br>
 And Confusion matrix with model data as is and in percentage:
-![cmx](rps_model/data/conf_matrix.png)
+![cmx](rps_model/data/conf_matrix.png) <br>
+Also in python console will be printed all model scores i.e. Accuracy, Precision,
+Recall, and F1 Score.
+4. If You want to run full cross validation with various solvers,
+then, then in `model_train.py` is a section with cross validation
+function, uncomment it and run file. Be aware that it takes long
+time to compute, depending from amount of data.
+5. At the very bottom of the `model_train.py` file, there
+is a section to train final model with all data available, and
+to export model to a file. Uncomment for execution. 
+6. Next step is `varia.py`, where, after running the file, and
+with given results from cross validation, two plots should appear: <br>
+![cv_comp1](rps_model/data/cv_comparison_1.png)
+![cv_comp2](rps_model/data/cv_comparison_2.png)
+It is a comparison of data from cross validation with different
+solvers. 
+7. Last step is to predict. File `predict.py` is for that, it loads 
+saved model, then after setting up proper path to an image,
+prediction should be made.
 
 
 
