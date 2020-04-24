@@ -37,8 +37,19 @@ $ pip3 install -r requirements.txt
  names for labels. Folders must be named just like the labels to recognize.
 Lastly choose size of picture.
 2. Go to `preprocess.py` and run the program. Be aware that all pictures
-in given paths will be resized to chosen size!
-3.  
+in given paths will be resized to chosen size! In data folder inside rps_model
+will appear files named after folder name.
+3. Run file `model_train.py`. There should appear plot with random samples
+like: 
+![random](rps_model/data/example_pic.png)
+
+Plot with amounts of data to process:
+![amounts](rps_model/data/amounts.png)
+
+And Confusion matrix with model data as is and in percentage:
+![cmx](rps_model/data/conf_matrix.png)
+
+
 
 ## License
 

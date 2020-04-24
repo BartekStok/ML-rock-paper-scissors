@@ -115,6 +115,9 @@ plot_image()
 plot_amount()
 
 
+#################################
+#   Cross Validation section    #
+#################################
 def cross_validation():
     """
     Computes multiple classifiers, saves scores, plots data file
@@ -177,7 +180,7 @@ def cross_validation():
     export_df = pd.DataFrame()
     for key, values in cv_result.items():
         export_df[f'{key}'] = values
-    export_df.to_csv('data/cv_result_1.csv')
+    export_df.to_csv('data/cv_result.csv')
 
     return cv_result
 
@@ -185,7 +188,9 @@ def cross_validation():
 # cv_result = cross_validation()  # Computing time about 10 min by 100 samples!
 
 
-# Training model
+#####################
+#   Training model  #
+#####################
 model = SGDClassifier()
 model.fit(X_train, y_train)
 y_pred = model.predict(X_test)
@@ -233,7 +238,9 @@ def conf_matrix(cmx):
 conf_matrix(cmx)
 
 
-# Final model train and save to file
+#########################################
+# Final model train and save to file    #
+#########################################
 # final_model = SGDClassifier()
 # final_model.fit(X, y)
 # joblib.dump(final_model, 'model.joblib')
