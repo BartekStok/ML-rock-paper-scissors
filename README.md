@@ -49,7 +49,7 @@ And Confusion matrix with model data as is and in percentage:
 Also in python console will be printed all model scores i.e. Accuracy, Precision,
 Recall, and F1 Score.
 4. If You want to run full cross validation with various solvers,
-then, then in `model_train.py` is a section with cross validation
+then in `model_train.py` is a section with cross validation
 function, uncomment it and run file. Be aware that it takes long
 time to compute, depending from amount of data.
 5. At the very bottom of the `model_train.py` file, there
