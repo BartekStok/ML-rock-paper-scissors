@@ -66,13 +66,6 @@ def plot_amount():
     Plotting amount of each sample divided for (train and test) split
     """
 
-    # Splitting X and y, preparing data
-    # plot_train_X, plot_test_X, plot_train_y, plot_test_y = train_test_split(
-    #     X,
-    #     y,
-    #     shuffle=True,
-    #     # random_state=36
-    # )
     labels = np.unique(y)
     bar_count = np.arange(labels.size)
     amounts_train = [(y_train == label).sum() for label in labels]
