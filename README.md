@@ -33,7 +33,7 @@ $ pip3 install -r requirements.txt
 
 ## Usage
 
-1. First go to `settings.py` and set path to pictures folders. Then set 
+1. First go to `settings.py` and set path to picture folders. Then set 
  names for labels. Folders must be named just like the labels to recognize.
 Lastly choose size of picture.
 2. Go to `preprocess.py` and run the program. Be aware that all pictures
